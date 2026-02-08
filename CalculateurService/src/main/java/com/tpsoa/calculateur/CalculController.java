@@ -1,4 +1,3 @@
-
 package com.tpsoa.calculateur;
 
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +9,11 @@ public class CalculController {
     @PostMapping("/valeur-stock")
     public double calculerValeur(@RequestBody List<Map<String, Object>> produits) {
         return produits.stream()
-            .mapToDouble(p -> ((Double)p.get("prix")) * ((Integer)p.get("quantite")))
+            .mapToDouble(p -> {
+                Number prix = (Number) p.get("prix");
+                Number quantite = (Number) p.get("quantite");
+                return prix.doubleValue() * quantite.intValue();
+            })
             .sum();
     }
 }
